@@ -5,7 +5,7 @@
 ================================================================
 
 Repository:  github.com/oimlsmart/branding
-Brand site:  https://oimlsmart.github.io/branding/
+Brand site:  https://www.oimlsmart.org/branding/
 All assets:  logo/ directory (SVG = source of truth, PNG = 300dpi export)
 
 ----------------------------------------------------------------
@@ -200,8 +200,8 @@ All assets:  logo/ directory (SVG = source of truth, PNG = 300dpi export)
     https://raw.githubusercontent.com/oimlsmart/branding/main/spinning-globe.js
 
   GitHub Pages (CDN-backed):
-    https://oimlsmart.github.io/branding/logo/<file>
-    https://oimlsmart.github.io/branding/spinning-globe.js
+    https://www.oimlsmart.org/branding/logo/<file>
+    https://www.oimlsmart.org/branding/spinning-globe.js
 
 ----------------------------------------------------------------
 7. HARD RULES

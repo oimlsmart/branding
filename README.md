@@ -7,7 +7,7 @@ application instructions for humans and AI agents), a published brand site on
 GitHub Pages — plus the animated brand mark: the spinning OIML ⇄ SMART globe
 as three dependency-free ES5 components.
 
-- Brand site: <https://oimlsmart.github.io/branding/>
+- Brand site: <https://www.oimlsmart.org/branding/>
 - Quick application guide: `BRANDING.txt`
 
 ## Brand guide

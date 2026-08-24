@@ -158,6 +158,27 @@ All assets:  logo/ directory (SVG = source of truth, PNG = 300dpi export)
   artwork. If a mockup needs other hues, use the palette above.
 
 ----------------------------------------------------------------
+4b. TYPOGRAPHY — the font stack
+----------------------------------------------------------------
+
+  Web surfaces use the project's font stack (do not substitute).
+  Source of truth: site-shell/src/styles/tokens.css.
+
+    Body / UI:   IBM Plex Sans
+    Code / eng:  IBM Plex Mono
+    Display H:   Fraunces
+
+  Load:
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Fraunces:wght@300;500;600&display=swap" rel="stylesheet">
+
+  CSS:
+    body   { font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; }
+    code   { font-family: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace; }
+    h1, h2 { font-family: 'Fraunces', 'Source Serif 4', ui-serif, Georgia, serif; }
+
+  Do not introduce a new typeface without updating tokens.css first.
+
+----------------------------------------------------------------
 5. ANIMATED COMPONENTS — spinner / progress globes
 ----------------------------------------------------------------
 
@@ -220,18 +241,20 @@ All assets:  logo/ directory (SVG = source of truth, PNG = 300dpi export)
   7. The SVGs are the source of truth; PNGs are 300dpi exports.
      Generate new exports from the SVGs, never edit PNGs.
   8. Wordmark colors come from the palette (section 4) only.
+  9. Use the project's font stack (section 4b) — IBM Plex Sans /
+     IBM Plex Mono / Fraunces. Do not introduce a new typeface.
 
 ----------------------------------------------------------------
 8. FOR AI AGENTS
 ----------------------------------------------------------------
 
   If asked to "apply OIML Smart branding" to a page, app, or
-  document: read sections 2-4, choose the variant by context,
+  document: read sections 2-4b, choose the variant by context,
   copy or hotlink the exact file, set the background to
-  #050810 (dark) or #f5f3ed (light), and use only palette
-  colors for surrounding text/accents. For loading states,
-  embed the component snippet in section 5. When unsure,
-  use oiml-logo_full-{theme} and Brand Blue #004996 on light.
+  #050810 (dark) or #f5f3ed (light), use only palette colors
+  and the project font stack, and for loading states embed the
+  component snippet in section 5. When unsure, use
+  oiml-logo_full-{theme} and Brand Blue #004996 on light.
 
 ================================================================
 End of guide. Source of truth for wording: README.md.

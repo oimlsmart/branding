@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Repo Is
 
-Brand asset repository for OIML Smart (`github.com/oimlsmart/branding`). Two kinds of content:
+Brand asset repository for OIML Smart (`github.com/oimlsmart/branding`). Kinds of content:
 
-1. **Logo assets** — designer source SVGs, 300dpi PNG exports (1875×1875 etc.), and the master source PDF (`oiml-logo.pdf`).
+1. **Logo assets** — `logo/` holds designer source SVGs, 300dpi PNG exports (1875×1875 etc.), the master source PDF (`logo/oiml-logo.pdf`), and `logo/profile-pic.png`. `BRANDING.txt` is the plain-text branding application guide; `site/index.html` is the brand guide published to GitHub Pages by `.github/workflows/deploy-pages.yml`.
 2. **Spinning globe components** — three dependency-free, ES5, self-contained IIFE scripts (`spinning-globe.js`, `spinning-globe-3d.js`, `spinning-globe-mini.js`) that animate the OIML↔SMART globe in pure SVG. `index.html` is the demo page.
 
 ## Commands
@@ -17,11 +17,11 @@ There is no build system, test suite, or linter. To see the components in action
 
 ## Source-of-Truth Rule (Critical)
 
-The `oiml-logo_*.svg` files and `oiml-logo.pdf` are **designer source artwork**. The path data embedded in `spinning-globe.js` / `spinning-globe-3d.js` (`OIML_PATHS`, `SMART_PATHS`, globe geometry) was extracted from these files. Never delete or "clean up" these files — including `-old` and numbered variants (`-25`, `-35`, etc.), which are historical iterations kept on purpose. If logo artwork changes, the path data in the components must be re-extracted from the updated SVGs.
+The `logo/oiml-logo_*.svg` files and `logo/oiml-logo.pdf` are **designer source artwork**. The path data embedded in `spinning-globe.js` / `spinning-globe-3d.js` (`OIML_PATHS`, `SMART_PATHS`, globe geometry) was extracted from these files. Never delete or "clean up" these files — including `-old` and numbered variants (`-25`, `-35`, etc.), which are historical iterations kept on purpose. If logo artwork changes, the path data in the components must be re-extracted from the updated SVGs.
 
 ## Asset Naming Convention
 
-`oiml-logo_<variant>-<theme>.{svg,png}`
+`logo/oiml-logo_<variant>-<theme>.{svg,png}`
 
 - `<theme>`: `dark` or `light` (every variant ships in both)
 - `<variant>`: `full`, `icon`, `globe`, `cs`, `cs-smart`, `smart-new`, `smartplus`, `platform`, `platformplus`, `smart-rec`, `smart-studio`, `smi`, `sst`, `cnml-box`, `vocab`, …

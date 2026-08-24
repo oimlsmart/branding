@@ -1,9 +1,67 @@
 # OIML Smart branding
 
-Brand assets for OIML Smart — the logo SVG/PNG pairs and the master
-`oiml-logo.pdf` (see `CLAUDE.md` for the naming convention and asset rules) —
-plus the animated brand mark: the spinning OIML ⇄ SMART globe as three
-dependency-free ES5 components.
+The source of truth for the OIML Smart brand: logo assets in `logo/` (SVG
+source of truth + 300dpi PNG exports + the designer's master
+`logo/oiml-logo.pdf`), the branding guide below, `BRANDING.txt` (plain-text
+application instructions for humans and AI agents), a published brand site on
+GitHub Pages — plus the animated brand mark: the spinning OIML ⇄ SMART globe
+as three dependency-free ES5 components.
+
+- Brand site: <https://oimlsmart.github.io/branding/>
+- Quick application guide: `BRANDING.txt`
+
+## Brand guide
+
+### Which logo to use
+
+All assets live in `logo/` as `oiml-logo_<variant>-<theme>.{svg,png}`, with
+every variant in `-dark` (for dark backgrounds) and `-light` (for light
+backgrounds).
+
+| Context | Use |
+| --- | --- |
+| Primary lockup (hero, cover, official) | `logo/oiml-logo_full-{theme}` |
+| App icon / favicon / square tile | `logo/oiml-logo_icon-{theme}` |
+| Small mark, avatar, badge (< 64 px) | `logo/oiml-logo_globe-{theme}` |
+| SMART wordmark + globe | `logo/oiml-logo_smart-new-{theme}` |
+| Component-branded surface | that component's variant (below) |
+| Loading / progress states | the spinning-globe components (below) |
+| Social profile picture | `logo/profile-pic.png` |
+
+Component variants — each pairs the globe with the component wordmark:
+`cs`, `cs-smart`, `cs-smartplus`, `smartplus`, `platform`, `platformplus`,
+`smart-rec`, `smart-studio`, `smi`, `sst`, `cnml-box`, `vocab`.
+
+`-old` files (`full-old`, `icon-old`, `smart-old`) and numbered iterations are
+historical — never use them for new work.
+
+### Colors
+
+| Role | Hex | Notes |
+| --- | --- | --- |
+| Brand Blue (primary) | `#004996` | light-theme stroke, text, links |
+| Sky Blue (secondary) | `#61b4ff` | dark-theme stroke, highlights |
+| Deep Navy | `#001e41` | dark wordmarks, dark surfaces |
+| Midnight Navy | `#003369` | secondary dark blue |
+| Ocean Blue | `#017abe` | mid-tone accent |
+| Pale Sky | `#c4e3ff` | light-theme accents |
+| Ink | `#1d1d1b` | near-black text |
+| White | `#ffffff` | text on dark |
+| Background (dark) | `#050810` | behind `-dark` assets |
+| Background (light) | `#f5f3ed` | behind `-light` assets |
+| Star Yellow | `#ffd54f` | dark-theme accent, sparingly |
+| Star Amber | `#ff9800` | light-theme accent, sparingly |
+
+### Rules
+
+- Use files as-is: no stretching, recoloring, re-typesetting, or added
+  effects. Pick `-dark`/`-light` per the background — the contrast is built
+  into the artwork.
+- Clear space of at least the globe's radius on all sides; minimum sizes:
+  full lockup ≥ 120 px wide, icon ≥ 32 px, below 64 px prefer the globe mark
+  or `SpinningGlobeMini`.
+- Treat every file in `logo/` as source (including `-old` and iterations):
+  never delete or overwrite. SVGs are canonical; PNGs are exports.
 
 ## Spinning globe — animated brand mark
 
@@ -409,21 +467,22 @@ Tested on Safari, Chrome, Firefox, and Edge. Requires:
 
 ## Logo assets
 
-The `oiml-logo_*` files are the canonical logo assets, named
+`logo/` holds the canonical logo assets, named
 `oiml-logo_{variant}-{light|dark}[-old|-N].{png,svg}` — every variant ships in
 light and dark; `-old` marks previous-generation marks and numeric suffixes
-mark design iterations, all kept deliberately. `oiml-logo.pdf` is the
-designer's master source.
+mark design iterations, all kept deliberately. `logo/oiml-logo.pdf` is the
+designer's master source; `logo/profile-pic.png` is the social profile
+picture. `BRANDING.txt` is the plain-text application guide.
 
 ```
+logo/                          all logo assets (SVG source + 300dpi PNG)
 spinning-globe.js              Wireframe component (self-contained IIFE)
 spinning-globe-3d.js           3D filled component (self-contained IIFE)
 spinning-globe-mini.js         Mini component for small screens (self-contained IIFE)
-index.html                     Demo page (all variants, mode switching, sliders)
-oiml-logo_globe-dark.svg       Source SVG — globe wireframe, dark theme
-oiml-logo_globe-light.svg      Source SVG — globe wireframe, light theme
-oiml-logo_icon-dark.svg        Source SVG — globe + OIML text
-oiml-logo_smart-new-dark.svg   Source SVG — globe + SMART text
+index.html                     Component demo (open directly in a browser)
+site/index.html                Brand guide page published to GitHub Pages
+.github/workflows/deploy-pages.yml  Pages deployment (stages site + logo + components)
+BRANDING.txt                   Plain-text branding application guide
 ```
 
 The `.svg` files and `oiml-logo.pdf` are designer source artwork — the path

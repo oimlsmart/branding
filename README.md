@@ -2,7 +2,7 @@
 
 Brand assets for OIML Smart — the logo SVG/PNG pairs and the master
 `oiml-logo.pdf` (see `CLAUDE.md` for the naming convention and asset rules) —
-plus the animated brand mark: the spinning OIML ⇄ SMART globe as two
+plus the animated brand mark: the spinning OIML ⇄ SMART globe as three
 dependency-free ES5 components.
 
 ## Spinning globe — animated brand mark
@@ -11,6 +11,10 @@ dependency-free ES5 components.
   built from 7 rotating meridians with the OIML ⇄ SMART wordmark
 - **3D Filled** (`spinning-globe-3d.js`, `window.SpinningGlobe3D`) — adds a
   volumetric liquid fill, 70 cloud particles, and 35 twinkling star lights
+- **Mini** (`spinning-globe-mini.js`, `window.SpinningGlobeMini`) — compact
+  variant tuned for small screens (24–64 px): 5 meridians with
+  size-proportional strokes, liquid fill, 6 star lights, no wordmark, no
+  clouds or filters — ~14 animated elements for cheap mobile rendering
 
 Pure SVG transforms driven by `requestAnimationFrame` — no WebGL, no canvas,
 no dependencies, ES5 throughout.
@@ -39,8 +43,9 @@ no dependencies, ES5 throughout.
 *Progress mode: fill level controlled externally via `setProgress()`.*
 
 Open `index.html` in a browser for the full demo: wireframe and 3D variants in
-dark and light themes, two no-text variants, mode switching, a cycle-time
-slider for the spinner, and a fill slider for progress mode.
+dark and light themes, two no-text variants, a mini size ramp (28/44/64 px) in
+spinner and progress modes, mode switching, a cycle-time slider for the
+spinner, and a fill slider for progress mode.
 
 ### Quick start
 
@@ -75,6 +80,23 @@ meridian periods per half, so every half ends in an identical configuration
 mid-half. The fill rises through the OIML half and drains through the SMART
 half. `duration` and `spinSpeed` are ignored in `spinner` mode; the static
 center line stays hidden while spinning.
+
+### Mini variant
+
+`SpinningGlobeMini` shares the same API (`setMode`, `configure`,
+`getOptions`, `start`, `destroy`, `setProgress`) and the same modes, with a
+reduced option set — there is no `text` option (the wordmark is omitted by
+design at mini sizes) and `mode` defaults to `'spinner'`:
+
+| Group | Options (default) |
+| --- | --- |
+| Scene | `theme` `'dark'\|'light'` (`'dark'`) · `mode` (`'spinner'`) · `delay` ms (`0`) |
+| One-shot timing | `duration` s (`5.6`) · `spinSpeed` rad/s (`3.3`) |
+| Spinner | `cycleTime` s (`9`) |
+| 3D-style extras | `idleAnimation` `'continue'\|'stop'` (`'continue'`) · `progress` 0–1 (`0`) |
+
+The mini spinner uses the same breathing-spin derivation with 5 meridians
+(13 meridian periods per half-cycle for the seamless loop).
 
 ### Modes
 
@@ -302,8 +324,8 @@ function Globe({ theme = 'dark', mode = 'forward', cycleTime = 9, progress }) {
 
 ### Bundler Usage (Webpack, Vite, Rollup)
 
-Both components are shipped as IIFEs (`window.SpinningGlobe` and
-`window.SpinningGlobe3D`). To use with a bundler:
+All three components are shipped as IIFEs (`window.SpinningGlobe`,
+`window.SpinningGlobe3D`, `window.SpinningGlobeMini`). To use with a bundler:
 
 ```js
 import './spinning-globe-3d.js';
@@ -319,10 +341,25 @@ const SpinningGlobe3D = window.SpinningGlobe3D;
 | Branded loading indicator | 3D Filled | `spinner` | Synchronized spin/crossfade/fill loop; stars twinkle |
 | Progress display | 3D Filled | `progress` + `setProgress()` | Call `setProgress(0.7)` as loading advances |
 | Pure spinner (no wordmark) | Either | `spinner` + `text: false` | Globe-only spinner, pace set by `cycleTime` |
+| Mini loader / inline spinner | Mini | `spinner` (default) | 24–64 px, ~14 animated SVG elements |
+| Compact progress | Mini | `progress` + `setProgress()` | Small progress globe for mobile UIs |
 | Text-free progress bar | 3D Filled | `progress` + `text: false` + `setProgress()` | Globe fills with no text |
 | Logo reveal / hero section | Either | `forward` or `reverse` | One-shot brand transition with text crossfade |
 | Idle state animation | 3D Filled | `forward` + `idleAnimation: 'continue'` | Globe at rest with stars and clouds gently moving |
 | Static logo | Wireframe | `forward` + `idleAnimation: 'stop'` | Clean wireframe globe frozen at rest with text |
+
+### Mini (small screens)
+
+```html
+<div id="loader" style="width: 32px;"></div>
+<script src="spinning-globe-mini.js"></script>
+<script>
+    var loader = new SpinningGlobeMini('#loader', { theme: 'dark' });
+</script>
+```
+
+Defaults to `spinner` mode — drop it in and it loads. Give the wrapper an
+explicit pixel size (24–64 px is the sweet spot).
 
 ### Progress Indicator Example
 
@@ -381,6 +418,7 @@ designer's master source.
 ```
 spinning-globe.js              Wireframe component (self-contained IIFE)
 spinning-globe-3d.js           3D filled component (self-contained IIFE)
+spinning-globe-mini.js         Mini component for small screens (self-contained IIFE)
 index.html                     Demo page (all variants, mode switching, sliders)
 oiml-logo_globe-dark.svg       Source SVG — globe wireframe, dark theme
 oiml-logo_globe-light.svg      Source SVG — globe wireframe, light theme

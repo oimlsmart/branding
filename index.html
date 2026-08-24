@@ -132,6 +132,23 @@
         .panel.dark .label { color: rgba(97,180,255,0.35); }
         .panel.light .label { color: rgba(0,73,150,0.3); }
 
+        .mini-row { flex: 0 0 auto; }
+
+        .mini-row .panel {
+            min-height: 0;
+            flex: none;
+            padding: 1.4rem 1rem 1.1rem;
+        }
+
+        .mini-set {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 1.4rem;
+        }
+
+        .mini-row .label { margin-top: 1rem; }
+
         .sep-v {
             width: 1px;
             background: linear-gradient(to bottom, transparent 5%, rgba(97,180,255,0.1) 50%, transparent 95%);
@@ -311,10 +328,33 @@
                 <p class="label">3D Filled · No Text</p>
             </section>
         </div>
+
+        <div class="sep-h"></div>
+
+        <div class="row mini-row">
+            <section class="panel dark">
+                <div class="mini-set">
+                    <div id="mini-s-28" style="width:28px"></div>
+                    <div id="mini-s-44" style="width:44px"></div>
+                    <div id="mini-s-64" style="width:64px"></div>
+                </div>
+                <p class="label">Mini · Spinner</p>
+            </section>
+            <div class="sep-v"></div>
+            <section class="panel light">
+                <div class="mini-set">
+                    <div id="mini-p-28" style="width:28px"></div>
+                    <div id="mini-p-44" style="width:44px"></div>
+                    <div id="mini-p-64" style="width:64px"></div>
+                </div>
+                <p class="label">Mini · Progress</p>
+            </section>
+        </div>
     </main>
 
     <script src="spinning-globe.js"></script>
     <script src="spinning-globe-3d.js"></script>
+    <script src="spinning-globe-mini.js"></script>
     <script>
         var dkGlobe = new SpinningGlobe('#globe-dark', {
             theme: 'dark', mode: 'forward', duration: 5.6, spinSpeed: 3.3
@@ -335,9 +375,20 @@
         var nt3d = new SpinningGlobe3D('#globe-3d-notext', {
             theme: 'light', mode: 'spinner', text: false
         });
+        var miniSpin = [
+            new SpinningGlobeMini('#mini-s-28', { theme: 'dark', mode: 'spinner' }),
+            new SpinningGlobeMini('#mini-s-44', { theme: 'dark', mode: 'spinner', delay: 400 }),
+            new SpinningGlobeMini('#mini-s-64', { theme: 'dark', mode: 'spinner', delay: 800 })
+        ];
+        var miniProg = [
+            new SpinningGlobeMini('#mini-p-28', { theme: 'light', mode: 'progress', progress: 0.3 }),
+            new SpinningGlobeMini('#mini-p-44', { theme: 'light', mode: 'progress', progress: 0.6 }),
+            new SpinningGlobeMini('#mini-p-64', { theme: 'light', mode: 'progress', progress: 0.9 })
+        ];
 
-        var all = [dkGlobe, ltGlobe, dk3d, lt3d, ntGlobe, nt3d];
+        var all = [dkGlobe, ltGlobe, dk3d, lt3d, ntGlobe, nt3d].concat(miniSpin, miniProg);
         var all3d = [dk3d, lt3d, nt3d];
+        var allProg = all3d.concat(miniProg);
         var progressBar = document.getElementById('progress-bar');
         var pctSlider = document.getElementById('pct-slider');
         var pctLabel = document.getElementById('pct-label');
@@ -357,7 +408,7 @@
                 speedBar.style.display = m === 'spinner' ? 'flex' : 'none';
                 if (m === 'progress') {
                     var pct = parseFloat(pctSlider.value) / 100;
-                    for (var j = 0; j < all3d.length; j++) all3d[j].setProgress(pct);
+                    for (var j = 0; j < allProg.length; j++) allProg[j].setProgress(pct);
                 }
             });
         }
@@ -365,7 +416,7 @@
         pctSlider.addEventListener('input', function() {
             var pct = parseFloat(this.value) / 100;
             pctLabel.textContent = Math.round(pct * 100) + '%';
-            for (var j = 0; j < all3d.length; j++) all3d[j].setProgress(pct);
+            for (var j = 0; j < allProg.length; j++) allProg[j].setProgress(pct);
         });
 
         cycSlider.addEventListener('input', function() {

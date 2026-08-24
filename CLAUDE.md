@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Brand asset repository for OIML Smart (`github.com/oimlsmart/branding`). Two kinds of content:
 
 1. **Logo assets** — designer source SVGs, 300dpi PNG exports (1875×1875 etc.), and the master source PDF (`oiml-logo.pdf`).
-2. **Spinning globe components** — two dependency-free, ES5, self-contained IIFE scripts (`spinning-globe.js`, `spinning-globe-3d.js`) that animate the OIML↔SMART globe in pure SVG. `index.html` is the demo page.
+2. **Spinning globe components** — three dependency-free, ES5, self-contained IIFE scripts (`spinning-globe.js`, `spinning-globe-3d.js`, `spinning-globe-mini.js`) that animate the OIML↔SMART globe in pure SVG. `index.html` is the demo page.
 
 ## Commands
 
@@ -32,10 +32,11 @@ Commits are "brand asset drops" — descriptive lowercase prose describing what 
 
 ## Globe Component Architecture
 
-Both components are ES5 IIFEs exposing `window.SpinningGlobe` and `window.SpinningGlobe3D`. No bundler, no transpilation, no dependencies; they must keep working when included via a plain `<script>` tag.
+All three components are ES5 IIFEs exposing `window.SpinningGlobe`, `window.SpinningGlobe3D`, and `window.SpinningGlobeMini`. No bundler, no transpilation, no dependencies; they must keep working when included via a plain `<script>` tag.
 
 - **Wireframe** (`SpinningGlobe`): 7 meridian `<ellipse>` elements scaled along X by `cos(θ + 2π·i/7)`.
 - **3D Filled** (`SpinningGlobe3D`): adds a volume-fill arc segment, 70 spherical-coordinate cloud particles, and 35 pulsing star lights. `setProgress(pct)` drives the fill level externally.
+- **Mini** (`SpinningGlobeMini`): compact variant for small screens (24–64 px) — 5 meridians, size-proportional strokes, liquid fill, 6 star lights, no wordmark, no clouds/filter; same modes and runtime API, spinner mode shares the breathing-spin math (13 meridian periods per half).
 
 Key invariants:
 

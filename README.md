@@ -28,16 +28,33 @@ backgrounds).
 | Loading / progress states | the spinning-globe components (below) |
 | Social profile picture | `logo/profile-pic.png` |
 
-Component variants — each pairs the globe with the component wordmark
-(authoritative registry: `site-shell/src/data/components.ts`). **SMART tier**:
-`smart-rec` (SMART Recommendations), `vocab` (SMART Vocabulary),
-`smart-studio` (SMART Studio), `cnml-box` (OIML CNML, IA / Type-approval
-level), `cs-smart` (OIML-CS SMART Platform, global deployment), `platform`
-(OIML SMART Platform, member deployment). **SMART+ tier**: `cnml-box` again
-(Type-instance + measurement level), `smi` (SMART Measuring Instruments),
-`sst` (SST for Measuring Instruments — the Simulated SMART Twin),
-`cs-smartplus` (OIML-CS SMART+ Platform, global), `smartplus` (OIML SMART+
-Platform, member; `platformplus` is its companion member-deployment mark).
+The two programmes and their constituents (authoritative registry:
+`site-shell/src/data/components.ts`):
+
+**Programme SMART** — the published artifacts and the IA-level
+certification workflow:
+
+| Component | Logo |
+| --- | --- |
+| SMART Recommendations | `smart-rec` |
+| SMART Vocabulary | `vocab` |
+| SMART Studio | `smart-studio` |
+| OIML CNML (IA / Type-approval level) | `cnml-box` |
+| OIML-CS SMART Platform — global deployment | `cs-smart` |
+| OIML SMART Platform — member deployment | `platform` (registry slug `smart-platform`) |
+
+**Programme SMART+** — the full instrument-instance lifecycle:
+
+| Component | Logo |
+| --- | --- |
+| OIML CNML (Type-instance + measurement level — same mark) | `cnml-box` |
+| SMART Measuring Instruments | `smi` |
+| SST for Measuring Instruments (Simulated SMART Twin) | `sst` |
+| OIML-CS SMART+ Platform — global deployment | `cs-smartplus` |
+| OIML SMART+ Platform — member deployment | `smartplus` (`platformplus` is its companion member-deployment mark) |
+
+SMART Resources (publications and resolutions databases) has no separate
+logo — use the programme or OIML marks.
 
 Embed component logos from the canonical public URL with the
 color-scheme-swapped picture pattern:

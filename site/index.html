@@ -51,6 +51,9 @@
     .card .cap span { display: block; opacity: 0.55; margin-top: 0.2rem; word-break: break-all; }
 
     .comp-grid { display: flex; flex-wrap: wrap; gap: 3rem; align-items: flex-end; justify-content: center; }
+    .group-h { font-size: 1.15rem; letter-spacing: 0.12em; text-transform: uppercase; margin: 2.6rem 0 1.1rem; }
+    .group-h:first-of-type { margin-top: 0; }
+    .group-h span { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: none; opacity: 0.55; }
     .comp-cell { text-align: center; }
     .comp-cell .slot { margin: 0 auto; }
     .comp-cell p { margin-top: 0.9rem; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); opacity: 0.7; }
@@ -114,7 +117,12 @@
 <section>
     <p class="kicker">02.5 — Marks</p>
     <h2>Logo gallery</h2>
-    <div class="gallery" id="gallery"></div>
+    <h3 class="group-h">Core marks</h3>
+    <div class="gallery" id="gallery-core"></div>
+    <h3 class="group-h">Programme SMART <span>— published artifacts + IA-level certification</span></h3>
+    <div class="gallery" id="gallery-smart"></div>
+    <h3 class="group-h">Programme SMART+ <span>— the full instrument-instance lifecycle</span></h3>
+    <div class="gallery" id="gallery-smartplus"></div>
 </section>
 
 <section>
@@ -146,27 +154,32 @@
 <script>
 (function() {
     'use strict';
-    var VARIANTS = [
-        ['full',        'Primary lockup'],
-        ['icon',        'App icon'],
-        ['globe',       'Globe mark'],
-        ['smart-new',   'SMART'],
-        ['smartplus',   'SMART+'],
-        ['cs',          'OIML-CS'],
-        ['cs-smart',    'OIML-CS SMART Platform · global'],
-        ['cs-smartplus','OIML-CS SMART+ Platform · global'],
-        ['platform',    'OIML SMART Platform · member'],
-        ['platformplus','OIML SMART+ Platform · member'],
-        ['smart-rec',   'SMART Recommendations'],
-        ['smart-studio','SMART Studio'],
-        ['smi',         'SMART Measuring Instruments'],
-        ['sst',         'SST for Measuring Instruments'],
-        ['cnml-box',    'OIML CNML'],
-        ['vocab',       'SMART Vocabulary']
+    var GROUPS = [
+        ['gallery-core', [
+            ['full',        'Primary lockup'],
+            ['icon',        'App icon'],
+            ['globe',       'Globe mark'],
+            ['smart-new',   'SMART'],
+            ['cs',          'OIML-CS']
+        ]],
+        ['gallery-smart', [
+            ['smart-rec',   'SMART Recommendations'],
+            ['vocab',       'SMART Vocabulary'],
+            ['smart-studio','SMART Studio'],
+            ['cnml-box',    'OIML CNML · IA / Type-approval level'],
+            ['cs-smart',    'OIML-CS SMART Platform · global'],
+            ['platform',    'OIML SMART Platform · member']
+        ]],
+        ['gallery-smartplus', [
+            ['cnml-box',    'OIML CNML · Type-instance + measurement level'],
+            ['smi',         'SMART Measuring Instruments'],
+            ['sst',         'SST for Measuring Instruments'],
+            ['cs-smartplus','OIML-CS SMART+ Platform · global'],
+            ['smartplus',   'OIML SMART+ Platform · member'],
+            ['platformplus','OIML SMART+ Platform · member (companion mark)']
+        ]]
     ];
-    var g = document.getElementById('gallery');
-    for (var i = 0; i < VARIANTS.length; i++) {
-        var v = VARIANTS[i][0], label = VARIANTS[i][1];
+    var makeCard = function(v, label) {
         var card = document.createElement('div');
         card.className = 'card';
         card.innerHTML =
@@ -175,7 +188,12 @@
                 '<div class="half light-side"><img src="logo/oiml-logo_' + v + '-light.svg" alt="' + label + ' light" loading="lazy"></div>' +
             '</div>' +
             '<div class="cap"><b>' + label + '</b><span>oiml-logo_' + v + '-{dark,light}</span></div>';
-        g.appendChild(card);
+        return card;
+    };
+    for (var gi = 0; gi < GROUPS.length; gi++) {
+        var host = document.getElementById(GROUPS[gi][0]);
+        var items = GROUPS[gi][1];
+        for (var i = 0; i < items.length; i++) host.appendChild(makeCard(items[i][0], items[i][1]));
     }
 
     new SpinningGlobe3D('#hero-globe', { theme: 'dark', mode: 'spinner' });

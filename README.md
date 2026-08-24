@@ -28,11 +28,18 @@ backgrounds).
 | Loading / progress states | the spinning-globe components (below) |
 | Social profile picture | `logo/profile-pic.png` |
 
-The two programmes and their constituents (authoritative registry:
-`site-shell/src/data/components.ts`):
+#### The two programmes and their constituents
 
-**Programme SMART** — the published artifacts and the IA-level
-certification workflow:
+The OIML Smart ecosystem is two programmes with their own audiences and
+their own publishing surfaces. Each constituent ships a brand mark pairing
+the globe with its wordmark.
+
+**Programme SMART** — the *published* side of OIML Smart. Recommendations,
+Vocabulary, Studio, CNML at the IA / Type-approval level, and the two
+SMART platforms host the workflow that produces and verifies the artifacts.
+This is where the brand mark does the heaviest lifting: a SMART surface
+introduces itself with the wordmark + globe lockup, then keeps a steady,
+slow `spinner` to signal "live and verified".
 
 | Component | Logo |
 | --- | --- |
@@ -43,7 +50,13 @@ certification workflow:
 | OIML-CS SMART Platform — global deployment | `cs-smart` |
 | OIML SMART Platform — member deployment | `platform` (registry slug `smart-platform`) |
 
-**Programme SMART+** — the full instrument-instance lifecycle:
+**Programme SMART+** — the *live* side of OIML Smart. CNML at the
+Type-instance and measurement level, the SMART Measuring Instruments
+themselves, the SST twins, and the two SMART+ platforms run the lifecycle
+that follows each instrument from certification through service. Programmatic
+surfaces — dashboards, instrument portals, the SIM registry, mobile loaders
+— usually want the `progress` mode (a static globe driven by `setProgress()`
+as work advances) or a silent mini loader while a remote call runs.
 
 | Component | Logo |
 | --- | --- |
@@ -56,8 +69,9 @@ certification workflow:
 SMART Resources (publications and resolutions databases) has no separate
 logo — use the programme or OIML marks.
 
-Embed component logos from the canonical public URL with the
-color-scheme-swapped picture pattern:
+Authoritative registry: `site-shell/src/data/components.ts`. Embed component
+logos from the canonical public URL with the color-scheme-swapped picture
+pattern:
 
 ```html
 <picture>
@@ -91,6 +105,24 @@ historical — never use them for new work.
 | Star Yellow | `#ffd54f` | dark-theme accent, sparingly |
 | Star Amber | `#ff9800` | light-theme accent, sparingly |
 
+### Typography
+
+Web surfaces use the project's font stack (do not substitute):
+**IBM Plex Sans** for body UI, **IBM Plex Mono** for code and engineering
+contexts, **Fraunces** for editorial display headings. Load:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Fraunces:wght@300;500;600&display=swap" rel="stylesheet">
+```
+
+CSS usage:
+
+```css
+body    { font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; }
+code    { font-family: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace; }
+h1, h2  { font-family: 'Fraunces', 'Source Serif 4', ui-serif, Georgia, serif; }
+```
+
 ### Rules
 
 - Use files as-is: no stretching, recoloring, re-typesetting, or added
@@ -101,128 +133,178 @@ historical — never use them for new work.
   or `SpinningGlobeMini`.
 - Treat every file in `logo/` as source (including `-old` and iterations):
   never delete or overwrite. SVGs are canonical; PNGs are exports.
+- Use the project's font stack — do not introduce a new typeface without
+  updating `tokens.css` first.
 
-## Spinning globe — animated brand mark
+## Spinning globe — the animated brand mark
 
-- **Wireframe** (`spinning-globe.js`, `window.SpinningGlobe`) — globe outline
-  built from 7 rotating meridians with the OIML ⇄ SMART wordmark
-- **3D Filled** (`spinning-globe-3d.js`, `window.SpinningGlobe3D`) — adds a
-  volumetric liquid fill, 70 cloud particles, and 35 twinkling star lights
-- **Mini** (`spinning-globe-mini.js`, `window.SpinningGlobeMini`) — compact
-  variant tuned for small screens (24–64 px): 5 meridians with
-  size-proportional strokes, liquid fill, 6 star lights, no wordmark, no
-  clouds or filters — ~14 animated elements for cheap mobile rendering
+Three self-contained components share the same globe geometry, the same
+OIML ⇄ SMART path data, and the same set of behaviors. They differ only
+in richness and render cost:
+
+- **Wireframe** (`spinning-globe.js`, `window.SpinningGlobe`) — globe
+  outline of 7 rotating meridians with the OIML ⇄ SMART wordmark.
+  Heaviest component: ~12 KB.
+- **3D Filled** (`spinning-globe-3d.js`, `window.SpinningGlobe3D`) — adds
+  a volumetric liquid fill, 70 cloud particles, and 35 twinkling star
+  lights. ~25 KB.
+- **Mini** (`spinning-globe-mini.js`, `window.SpinningGlobeMini`) —
+  compact 24–64 px variant (5 meridians, ~14 animated elements, no
+  wordmark). ~5 KB.
 
 Pure SVG transforms driven by `requestAnimationFrame` — no WebGL, no canvas,
-no dependencies, ES5 throughout.
+no dependencies, ES5 throughout. The viewBox of the full components is
+`0 0 400 350`; the mini uses a tight square crop around the globe.
 
-### Demo
-
-![Forward mode — OIML phase](screenshot-forward-oiml.png)
-*Forward mode: OIML fades in, globe spins, text crossfades to SMART.*
-
-![Forward mode — SMART phase](screenshot-forward-smart.png)
-*Forward mode complete: SMART text holds with globe at rest.*
-
-![Spinner mode](screenshot-spinner.png)
-*Spinner mode: synchronized spin, crossfade, and fill cycling.*
-
-![Dark theme](screenshot-dark-panel.png) ![Light theme](screenshot-light-panel.png)
-*Dark and light themes.*
-
-![3D filling](screenshot-3d-filling.png)
-*3D filling up — radial gradient with cloud particles and surface ellipse.*
-
-![3D full](screenshot-3d-full.png)
-*Fully filled globe with yellow star lights twinkling.*
-
-![Progress mode](screenshot-progress.png)
-*Progress mode: fill level controlled externally via `setProgress()`.*
-
-Open `index.html` in a browser for the full demo: wireframe and 3D variants in
-dark and light themes, two no-text variants, a mini size ramp (28/44/64 px) in
-spinner and progress modes, mode switching, a cycle-time slider for the
-spinner, and a fill slider for progress mode.
+Open `index.html` in a browser to see the demo: every variant in dark and
+light themes, two no-text variants, a mini size ramp (28 / 44 / 64 px),
+mode switching, and a cycle / fill slider.
 
 ### Quick start
 
 ```html
+<!-- Wireframe (OIML ⇄ SMART wordmark, no fill) -->
 <div id="globe" style="width: 400px;"></div>
+<script src="spinning-globe.js"></script>
+<script>
+    var globe = new SpinningGlobe('#globe', { theme: 'dark', mode: 'spinner' });
+</script>
+
+<!-- 3D Filled (volumetric fill, clouds, stars) -->
 <script src="spinning-globe-3d.js"></script>
 <script>
-    var globe = new SpinningGlobe3D('#globe', { theme: 'dark', mode: 'forward' });
+    var loader = new SpinningGlobe3D('#loader', { theme: 'dark', mode: 'progress' });
+</script>
+
+<!-- Mini (24–64 px loader, defaults to spinner mode) -->
+<script src="spinning-globe-mini.js"></script>
+<script>
+    var icon = new SpinningGlobeMini('#icon', { theme: 'dark' });
 </script>
 ```
 
-No build step. The container is filled with a responsive
-`<svg viewBox="0 0 400 350">`; size it with CSS.
+### Behaviors (modes)
+
+The four modes cover the full range of "what this surface is for" — from a
+one-shot brand reveal to a live loading indicator.
+
+- **`forward`** — one-shot brand reveal: OIML fades in, the globe spins up,
+  the wordmark crossfades to SMART at peak speed, the globe decelerates,
+  settles at rest on a snap angle. The right mode for hero sections,
+  marketing pages, and anywhere you want the lockup to introduce itself.
+- **`reverse`** — same as `forward`, SMART → OIML.
+- **`spinner`** — looping brand mark driven by a single `cycleTime`
+  parameter that synchronizes the breathing spin, the wordmark crossfade,
+  and the 3D fill. Default for the **mini** component (drop-in loader).
+- **`progress`** — static globe; fill driven externally by
+  `globe.setProgress(0..1)` as work advances. Clouds and stars keep
+  animating. Default behavior for the SMART+ use cases (dashboards,
+  instrument portals, the SIM registry).
+
+Two more runtime knobs on the 3D component:
+
+- `globe.setProgress(0..1)` — set the fill level in any mode (instantly
+  overrides the spinner's auto cycle).
+- `idleAnimation: 'continue' | 'stop'` — whether stars and clouds keep
+  animating after a one-shot animation completes. `'stop'` saves CPU when
+  the loader is finished.
+
+### Programme usage patterns
+
+Each programme uses the components a little differently — pick the variant
++ mode that matches the surface.
+
+**Programme SMART surfaces** (docs, Studio, the global SMART platform) tend
+to use the `forward` mode once on entry, then fall back to a steady
+`spinner` to signal "live and verified". The full lockup
+(`oiml-logo_full-{theme}`) anchors the masthead; component marks sit in
+nav dropdowns. The mini variant handles the in-page "loading the next
+recommendation" state.
+
+**Programme SMART+ surfaces** (CNML verifier, instrument dashboards, the
+SMART+ platforms) tend to be programmatic — `progress` mode driven by
+`setProgress()` as a workflow advances, or a silent mini loader while a
+remote call runs. The full SMART+ mark or `cnml-box` (also the mark for the
+SMART tier's IA-level CNML) anchors cert pages.
 
 ### Options
 
-All options are optional.
+All options are optional. Full documentation is in the JSDoc block above
+the constructor in each `<file>`.
 
-| Group | Options (default) |
+| Group | Options (default) — wireframe and 3D |
 | --- | --- |
-| Scene | `theme` `'dark'\|'light'` (`'dark'`) · `mode` `'forward'\|'reverse'\|'spinner'\|'progress'` (`'forward'`) · `delay` ms (`0`) |
-| One-shot timing | `duration` s (`5.6`) · `spinSpeed` rad/s (`3.3`) — forward/reverse/progress only |
+| Scene | `theme` `'dark' \| 'light'` (`'dark'`) · `mode` `'forward' \| 'reverse' \| 'spinner' \| 'progress'` (`'forward'`) · `delay` ms (`0`) |
+| One-shot timing | `duration` s (`5.6`) · `spinSpeed` rad/s (`3.3`) — forward / reverse / progress only |
 | Spinner | `cycleTime` s (`9`) — seconds per full OIML→SMART→OIML loop; the one parameter that synchronizes wordmark, spin, and fill |
-| Wordmark | `text` (`true`) — `true` animated · `'oiml'` / `'smart'` pinned to one word · `false` hidden |
-| 3D only | `idleAnimation` `'continue'\|'stop'` (`'continue'`) · `progress` 0–1 (`0`, initial fill level) |
+| Wordmark | `text` `true \| 'oiml' \| 'smart' \| false` (`true`) — animated / pinned / hidden |
+| 3D only | `idleAnimation` `'continue' \| 'stop'` (`'continue'`) · `progress` 0–1 (`0`, initial fill) |
 
-Derivation rules: in `spinner` mode the half-cycle is `H = cycleTime / 2`.
-The globe rotates through a breathing spin spanning the whole half — speed
-never drops below 35 % of peak and peaks mid-half — covering exactly 18
-meridian periods per half, so every half ends in an identical configuration
-(seamless loop). The wordmark crossfade window is `min(2.4, H/2)` centered
-mid-half. The fill rises through the OIML half and drains through the SMART
-half. `duration` and `spinSpeed` are ignored in `spinner` mode; the static
-center line stays hidden while spinning.
+Derivation rules (spinner): the half-cycle is `H = cycleTime / 2`. The globe
+rotates through a breathing spin spanning the whole half — speed never
+drops below 35 % of peak, peaks mid-half, exactly 18 meridian periods per
+half → every half ends in an identical configuration (seamless loop). The
+wordmark crossfade window is `min(2.4, H/2)` centered mid-half. The fill
+rises through the OIML half and drains through the SMART half. `duration`
+and `spinSpeed` are ignored in `spinner` mode; the static center line stays
+hidden while spinning.
 
-### Mini variant
-
-`SpinningGlobeMini` shares the same API (`setMode`, `configure`,
-`getOptions`, `start`, `destroy`, `setProgress`) and the same modes, with a
-reduced option set — there is no `text` option (the wordmark is omitted by
-design at mini sizes) and `mode` defaults to `'spinner'`:
+**Mini variant** — same API, reduced options (the wordmark is omitted by
+design at mini sizes; `mode` defaults to `'spinner'`):
 
 | Group | Options (default) |
 | --- | --- |
-| Scene | `theme` `'dark'\|'light'` (`'dark'`) · `mode` (`'spinner'`) · `delay` ms (`0`) |
+| Scene | `theme` (`'dark'`) · `mode` (`'spinner'`) · `delay` ms (`0`) |
 | One-shot timing | `duration` s (`5.6`) · `spinSpeed` rad/s (`3.3`) |
 | Spinner | `cycleTime` s (`9`) |
-| 3D-style extras | `idleAnimation` `'continue'\|'stop'` (`'continue'`) · `progress` 0–1 (`0`) |
-
-The mini spinner uses the same breathing-spin derivation with 5 meridians
-(13 meridian periods per half-cycle for the seamless loop).
-
-### Modes
-
-- **`forward`** — OIML fades in → globe spins → text crossfades to SMART → stops at rest
-- **`reverse`** — SMART fades in → globe spins → text crossfades to OIML → stops at rest
-- **`spinner`** — continuous synchronized loop driven by `cycleTime`: breathing spin (never stopping), wordmark crossfade at peak speed, fill rising on OIML and draining on SMART
-- **`progress`** — static globe; fill controlled externally via `setProgress()`; stars/clouds animate
+| 3D-style extras | `idleAnimation` (`'continue'`) · `progress` 0–1 (`0`) |
 
 ### Runtime API
 
 ```js
-globe.setMode('spinner');             // restart the animation with a new mode
-globe.configure({ cycleTime: 4 });    // live options apply immediately
-globe.configure({ theme: 'light' });  // structural options rebuild in place,
-                                      // preserving animation state
-globe.getOptions();                   // copy of the resolved options
-globe.start();                        // restart with the current mode
-globe.destroy();                      // stop, clear the DOM
+globe.configure({ cycleTime: 5 });     // live options apply immediately
+globe.configure({ theme: 'light' });   // structural options rebuild in
+                                       // place, preserving animation state
+globe.getOptions();                    // copy of the resolved options:
+                                       // { theme, mode, cycleTime, ... }
+globe.setMode('spinner');              // restart the animation with a mode
+globe.start();                         // restart with the current mode
+globe.destroy();                       // stop the loop, clear the DOM
 
 // 3D variant only:
-globe.setProgress(0.7);               // set fill level 0–1 (progress mode)
+globe.setProgress(0.7);                // 0–1 fill level (works in any mode)
+```
+
+A spinner that reacts to live state changes:
+
+```js
+var loader = new SpinningGlobe3D('#loader', { theme: 'dark', mode: 'spinner' });
+
+// Speed up live:
+document.getElementById('faster').onclick = function () {
+    loader.configure({ cycleTime: 5 });
+};
+
+// Stagger multiple instances (uses `delay`):
+new SpinningGlobe3D('#a', { delay: 0 });
+new SpinningGlobe3D('#b', { delay: 2000 });
+new SpinningGlobe3D('#c', { delay: 4000 });
 ```
 
 ### Themes
 
-| Theme  | Stroke      | Text fill   | Background  | Volume fill | Cloud color | Star color |
-|--------|-------------|-------------|-------------|-------------|-------------|------------|
-| dark   | `#61b4ff`   | `#fff`      | `#050810`   | `#61b4ff`   | `#61b4ff`   | `#ffd54f`  |
-| light  | `#004996`   | `#1a1a1a`   | `#f5f3ed`   | `#a8d4f5`   | `#4da8e8`   | `#ff9800`  |
+Two named themes — pick by the background of your surface (dark or light):
+
+| Theme | Stroke | Text fill | Background | Volume fill | Cloud | Star |
+|-------|--------|-----------|------------|-------------|-------|------|
+| `dark` | `#61b4ff` | `#fff` | `#050810` | `#61b4ff` | `#61b4ff` | `#ffd54f` |
+| `light` | `#004996` | `#1a1a1a` | `#f5f3ed` | `#a8d4f5` | `#4da8e8` | `#ff9800` |
+
+Only the two named themes are accepted today. To customize beyond them,
+edit the `THEMES` table at the top of the component source file (each
+component has its own — they don't share a palette, since the wireframe
+component has no fill / clouds / stars). For a wider design system, change
+the values in `site-shell/src/styles/tokens.css` and feed them in.
 
 ---
 

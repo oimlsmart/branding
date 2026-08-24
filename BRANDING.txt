@@ -47,21 +47,51 @@ All assets:  logo/ directory (SVG = source of truth, PNG = 300dpi export)
                                            (section 5)
   Social profile picture                   logo/profile-pic.png
 
-  Component variants (each pairs the globe with the component
-  wordmark; all ship in -dark and -light):
+  Component variants — each pairs the globe with the component wordmark
+  (the authoritative registry is site-shell src/data/components.ts):
 
-    cs             CS
-    cs-smart       CS SMART
-    cs-smartplus   CS SMART+
-    smartplus      SMART+
-    platform       PLATFORM
-    platformplus   PLATFORM+
-    smart-rec      SMART REC
-    smart-studio   SMART STUDIO
-    smi            SMI
-    sst            SST
-    cnml-box       CNML (boxed mark)
-    vocab          VOCAB
+    SMART TIER (published artifacts + IA-level certification)
+      smart-rec       SMART Recommendations
+                      (published, expert-authored executable Recommendations)
+      vocab           SMART Vocabulary
+                      (the governed terminology across publications)
+      smart-studio    SMART Studio
+                      (view and author SMART Recommendations)
+      cnml-box        OIML CNML — IA / Type-approval level
+                      (machine-readable certificate an issuing authority signs)
+      cs-smart        OIML-CS SMART Platform — GLOBAL deployment
+                      (applications -> testing -> evaluation -> certificates
+                       -> registration, hosted by OIML-CS for member states)
+      platform        OIML SMART Platform — MEMBER deployment
+                      (optional member/NMI/TL instance federating with the
+                       global OIML-CS platform; registry slug 'smart-platform')
+
+    SMART+ TIER (full instrument-instance lifecycle)
+      cnml-box        OIML CNML — Type-instance + measurement level
+                      (same mark, covers the live instrument certificate)
+      smi             SMART Measuring Instruments
+                      (the physical instrument is the API)
+      sst             SST for Measuring Instruments
+                      (the Simulated SMART Twin — no hardware needed)
+      cs-smartplus    OIML-CS SMART+ Platform — GLOBAL deployment
+      smartplus       OIML SMART+ Platform — MEMBER deployment
+      platformplus    companion member-deployment mark to 'platform'
+                      (pairs the platform/platformplus naming; the site
+                       registry currently slugs the member SMART+ platform
+                       'smartplus' — align it when adopting this drop)
+
+  Embedding a component logo in a web page (the brand-header pattern —
+  light/dark swapped by color scheme, served from the canonical URL):
+
+    <picture>
+      <source srcset="https://www.oimlsmart.org/img/components/<slug>-dark.svg"
+              media="(prefers-color-scheme: dark)">
+      <img src="https://www.oimlsmart.org/img/components/<slug>-light.svg"
+           alt="The <component> logo." width="112" loading="lazy">
+    </picture>
+
+  Web design tokens (color ramps, type, paper/ink) live ONLY in
+  site-shell src/styles/tokens.css — do not fork them per site.
 
   Historical (do NOT use for new work):
     full-old, icon-old, smart-old
@@ -141,7 +171,10 @@ All assets:  logo/ directory (SVG = source of truth, PNG = 300dpi export)
 6. URLs — hotlinking
 ----------------------------------------------------------------
 
-  Raw file (always latest main):
+  Canonical public copies (what web pages should reference):
+    https://www.oimlsmart.org/img/components/<slug>-{light,dark}.svg
+
+  Raw file (always latest main of this repo):
     https://raw.githubusercontent.com/oimlsmart/branding/main/logo/<file>
     https://raw.githubusercontent.com/oimlsmart/branding/main/spinning-globe.js
 

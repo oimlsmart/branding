@@ -28,9 +28,31 @@ backgrounds).
 | Loading / progress states | the spinning-globe components (below) |
 | Social profile picture | `logo/profile-pic.png` |
 
-Component variants — each pairs the globe with the component wordmark:
-`cs`, `cs-smart`, `cs-smartplus`, `smartplus`, `platform`, `platformplus`,
-`smart-rec`, `smart-studio`, `smi`, `sst`, `cnml-box`, `vocab`.
+Component variants — each pairs the globe with the component wordmark
+(authoritative registry: `site-shell/src/data/components.ts`). **SMART tier**:
+`smart-rec` (SMART Recommendations), `vocab` (SMART Vocabulary),
+`smart-studio` (SMART Studio), `cnml-box` (OIML CNML, IA / Type-approval
+level), `cs-smart` (OIML-CS SMART Platform, global deployment), `platform`
+(OIML SMART Platform, member deployment). **SMART+ tier**: `cnml-box` again
+(Type-instance + measurement level), `smi` (SMART Measuring Instruments),
+`sst` (SST for Measuring Instruments — the Simulated SMART Twin),
+`cs-smartplus` (OIML-CS SMART+ Platform, global), `smartplus` (OIML SMART+
+Platform, member; `platformplus` is its companion member-deployment mark).
+
+Embed component logos from the canonical public URL with the
+color-scheme-swapped picture pattern:
+
+```html
+<picture>
+  <source srcset="https://www.oimlsmart.org/img/components/<slug>-dark.svg"
+          media="(prefers-color-scheme: dark)">
+  <img src="https://www.oimlsmart.org/img/components/<slug>-light.svg"
+       alt="The <component> logo." width="112" loading="lazy">
+</picture>
+```
+
+Web design tokens (color ramps, typography, paper/ink) live only in
+`site-shell/src/styles/tokens.css` — do not fork them per site.
 
 `-old` files (`full-old`, `icon-old`, `smart-old`) and numbered iterations are
 historical — never use them for new work.

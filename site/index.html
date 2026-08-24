@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OIML Smart — Brand Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --blue: #004996; --sky: #61b4ff; --navy: #001e41; --midnight: #003369;
+        --ocean: #017abe; --pale: #c4e3ff; --ink: #1d1d1b;
+        --bg-dark: #050810; --bg-light: #f5f3ed;
+        --yellow: #ffd54f; --amber: #ff9800;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'JetBrains Mono', monospace; background: var(--bg-dark); color: #fff; -webkit-font-smoothing: antialiased; }
+    section { padding: 4.5rem 2rem; max-width: 1080px; margin: 0 auto; }
+    h1, h2, h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 300; }
+    h1 { font-size: clamp(2.4rem, 6vw, 4rem); letter-spacing: 0.06em; }
+    h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1.8rem; }
+    .kicker { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--sky); opacity: 0.8; margin-bottom: 1rem; }
+    .hero { text-align: center; padding: 7rem 2rem 5.5rem; background: radial-gradient(ellipse at 50% 30%, #0a1020 0%, var(--bg-dark) 70%); }
+    .hero p { max-width: 560px; margin: 1.4rem auto 0; color: rgba(255,255,255,0.55); font-size: 0.85rem; line-height: 1.7; }
+    .hero .globe-slot { width: min(38vmin, 300px); margin: 0 auto 2.2rem; }
+    .light-sec { background: var(--bg-light); color: var(--ink); }
+    .light-sec .kicker { color: var(--blue); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+    th, td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid rgba(128,128,128,0.25); vertical-align: top; }
+    th { font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.65rem; opacity: 0.7; }
+    td code { font-size: 0.72rem; }
+
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.9rem; }
+    .swatch { border: 1px solid rgba(128,128,128,0.3); }
+    .swatch .chip { height: 64px; }
+    .swatch .meta { padding: 0.55rem 0.7rem; background: rgba(128,128,128,0.08); }
+    .swatch .meta b { display: block; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+    .swatch .meta span { font-size: 0.68rem; opacity: 0.65; }
+
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+    .card { border: 1px solid rgba(128,128,128,0.3); }
+    .card .pair { display: flex; }
+    .card .half { flex: 1; display: flex; align-items: center; justify-content: center; padding: 1.4rem 1rem; min-height: 130px; }
+    .card .half.dark-side { background: var(--bg-dark); }
+    .card .half.light-side { background: var(--bg-light); }
+    .card img { max-width: 82%; max-height: 110px; height: auto; display: block; }
+    .card .cap { padding: 0.65rem 0.8rem; font-size: 0.66rem; border-top: 1px solid rgba(128,128,128,0.3); }
+    .card .cap b { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.66rem; }
+    .card .cap span { display: block; opacity: 0.55; margin-top: 0.2rem; word-break: break-all; }
+
+    .comp-grid { display: flex; flex-wrap: wrap; gap: 3rem; align-items: flex-end; justify-content: center; }
+    .comp-cell { text-align: center; }
+    .comp-cell .slot { margin: 0 auto; }
+    .comp-cell p { margin-top: 0.9rem; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky); opacity: 0.7; }
+    footer { padding: 3rem 2rem 4rem; text-align: center; font-size: 0.68rem; color: rgba(255,255,255,0.4); line-height: 1.9; }
+    footer a { color: var(--sky); text-decoration: none; }
+    @media (max-width: 640px) { section { padding: 3rem 1.2rem; } .card .pair { flex-direction: column; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="globe-slot"><div id="hero-globe"></div></div>
+    <p class="kicker">Brand guide</p>
+    <h1>OIML Smart</h1>
+    <p>The official logo assets, colors, and animated brand marks of OIML Smart.
+       Every file lives in the <b>branding</b> repository — this page is its published guide.</p>
+</header>
+
+<section>
+    <p class="kicker">01 — Usage</p>
+    <h2>Which logo to use</h2>
+    <table>
+        <tr><th>Context</th><th>Use</th></tr>
+        <tr><td>Primary lockup (hero, cover, official)</td><td><code>oiml-logo_full-{theme}</code></td></tr>
+        <tr><td>App icon / favicon / square tile</td><td><code>oiml-logo_icon-{theme}</code></td></tr>
+        <tr><td>Small mark, avatar, badge (&lt; 64 px)</td><td><code>oiml-logo_globe-{theme}</code></td></tr>
+        <tr><td>SMART wordmark + globe</td><td><code>oiml-logo_smart-new-{theme}</code></td></tr>
+        <tr><td>Component-branded surface</td><td>that component's variant (gallery below)</td></tr>
+        <tr><td>Loading / progress states</td><td>spinning-globe components (section 03)</td></tr>
+        <tr><td>Social profile picture</td><td><code>logo/profile-pic.png</code></td></tr>
+    </table>
+    <p style="margin-top:1.2rem;font-size:0.72rem;opacity:0.6;line-height:1.7">
+        Every variant ships in <b>-dark</b> (for dark backgrounds) and <b>-light</b> (for light backgrounds).
+        Place <b>-dark</b> artwork on <code>#050810</code>, <b>-light</b> artwork on <code>#f5f3ed</code> — never mix.
+        <code>-old</code> and numbered files are historical and must not be used in new work.</p>
+</section>
+
+<div class="light-sec">
+    <section style="padding:4.5rem 0;">
+        <div style="max-width:1080px;margin:0 auto;padding:0 2rem;">
+        <p class="kicker">02 — Palette</p>
+        <h2>Colors</h2>
+        <div class="swatches">
+            <div class="swatch"><div class="chip" style="background:#004996"></div><div class="meta"><b>Brand Blue</b><span>#004996 — primary, light theme</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#61b4ff"></div><div class="meta"><b>Sky Blue</b><span>#61b4ff — secondary, dark theme</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#001e41"></div><div class="meta"><b>Deep Navy</b><span>#001e41 — dark wordmarks</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#003369"></div><div class="meta"><b>Midnight Navy</b><span>#003369 — secondary dark</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#017abe"></div><div class="meta"><b>Ocean Blue</b><span>#017abe — mid-tone accent</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#c4e3ff"></div><div class="meta"><b>Pale Sky</b><span>#c4e3ff — light-theme accent</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#1d1d1b"></div><div class="meta"><b>Ink</b><span>#1d1d1b — near-black text</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#ffffff;border-bottom:1px solid rgba(0,0,0,0.15)"></div><div class="meta"><b>White</b><span>#ffffff — text on dark</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#050810"></div><div class="meta"><b>Background dark</b><span>#050810</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#f5f3ed"></div><div class="meta"><b>Background light</b><span>#f5f3ed</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#ffd54f"></div><div class="meta"><b>Star Yellow</b><span>#ffd54f — dark-theme accent</span></div></div>
+            <div class="swatch"><div class="chip" style="background:#ff9800"></div><div class="meta"><b>Star Amber</b><span>#ff9800 — light-theme accent</span></div></div>
+        </div>
+        </div>
+    </section>
+</div>
+
+<section>
+    <p class="kicker">02.5 — Marks</p>
+    <h2>Logo gallery</h2>
+    <div class="gallery" id="gallery"></div>
+</section>
+
+<section>
+    <p class="kicker">03 — Motion</p>
+    <h2>Animated brand mark</h2>
+    <p style="font-size:0.75rem;opacity:0.6;max-width:620px;line-height:1.7;margin-bottom:2.4rem">
+        Three dependency-free ES5 components animate the globe — wireframe with the OIML⇄SMART wordmark,
+        a 3D filled globe for spinners and progress, and a mini variant for small screens.
+        One parameter, <code>cycleTime</code>, synchronizes spin, wordmark, and fill.</p>
+    <div class="comp-grid">
+        <div class="comp-cell"><div class="slot" style="width:min(30vmin,240px)"><div id="g-wire"></div></div><p>Wireframe</p></div>
+        <div class="comp-cell"><div class="slot" style="width:min(30vmin,240px)"><div id="g-3d"></div></div><p>3D Filled</p></div>
+        <div class="comp-cell"><div class="slot" style="display:flex;gap:0.9rem;align-items:flex-end">
+            <div id="g-m1" style="width:28px"></div><div id="g-m2" style="width:44px"></div><div id="g-m3" style="width:64px"></div>
+        </div></div><p>Mini · 28–64 px</p></div>
+    </div>
+</section>
+
+<footer>
+    <a href="https://github.com/oimlsmart/branding">github.com/oimlsmart/branding</a><br>
+    Plain-text application guide: <a href="https://github.com/oimlsmart/branding/blob/main/BRANDING.txt">BRANDING.txt</a> ·
+    Component demo: <a href="https://github.com/oimlsmart/branding/blob/main/index.html">index.html</a><br>
+    Never modify the artwork. SVGs are the source of truth.
+</footer>
+
+<script src="spinning-globe.js"></script>
+<script src="spinning-globe-3d.js"></script>
+<script src="spinning-globe-mini.js"></script>
+<script>
+(function() {
+    'use strict';
+    var VARIANTS = [
+        ['full',        'Primary lockup'],
+        ['icon',        'App icon'],
+        ['globe',       'Globe mark'],
+        ['smart-new',   'SMART'],
+        ['smartplus',   'SMART+'],
+        ['cs',          'CS'],
+        ['cs-smart',    'CS SMART'],
+        ['cs-smartplus','CS SMART+'],
+        ['platform',    'PLATFORM'],
+        ['platformplus','PLATFORM+'],
+        ['smart-rec',   'SMART REC'],
+        ['smart-studio','SMART STUDIO'],
+        ['smi',         'SMI'],
+        ['sst',         'SST'],
+        ['cnml-box',    'CNML'],
+        ['vocab',       'VOCAB']
+    ];
+    var g = document.getElementById('gallery');
+    for (var i = 0; i < VARIANTS.length; i++) {
+        var v = VARIANTS[i][0], label = VARIANTS[i][1];
+        var card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML =
+            '<div class="pair">' +
+                '<div class="half dark-side"><img src="logo/oiml-logo_' + v + '-dark.svg" alt="' + label + ' dark" loading="lazy"></div>' +
+                '<div class="half light-side"><img src="logo/oiml-logo_' + v + '-light.svg" alt="' + label + ' light" loading="lazy"></div>' +
+            '</div>' +
+            '<div class="cap"><b>' + label + '</b><span>oiml-logo_' + v + '-{dark,light}</span></div>';
+        g.appendChild(card);
+    }
+
+    new SpinningGlobe3D('#hero-globe', { theme: 'dark', mode: 'spinner' });
+    new SpinningGlobe('#g-wire', { theme: 'dark', mode: 'spinner' });
+    new SpinningGlobe3D('#g-3d', { theme: 'dark', mode: 'spinner' });
+    new SpinningGlobeMini('#g-m1', { theme: 'dark', mode: 'spinner' });
+    new SpinningGlobeMini('#g-m2', { theme: 'dark', mode: 'spinner', delay: 400 });
+    new SpinningGlobeMini('#g-m3', { theme: 'dark', mode: 'spinner', delay: 800 });
+})();
+</script>
+</body>
+</html>

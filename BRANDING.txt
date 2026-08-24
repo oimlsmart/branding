@@ -1,0 +1,184 @@
+================================================================
+ OIML SMART — BRANDING APPLICATION GUIDE
+ (plain text, written for humans AND AI agents — read fully
+  before using any OIML Smart brand asset)
+================================================================
+
+Repository:  github.com/oimlsmart/branding
+Brand site:  https://oimlsmart.github.io/branding/
+All assets:  logo/ directory (SVG = source of truth, PNG = 300dpi export)
+
+----------------------------------------------------------------
+1. FILE NAMING — how to read a filename
+----------------------------------------------------------------
+
+    logo/oiml-logo_<variant>-<theme>.{svg,png}
+
+  * <theme> is ALWAYS one of:
+      -dark   designed for dark backgrounds (light-blue/white artwork)
+      -light  designed for light backgrounds (deep-blue artwork)
+
+  * suffixes:
+      -old    previous-generation mark, kept for history;
+              only for legacy continuity, never for new work
+      -N      numbered design iteration (-25, -35, ...), historical
+      plus    "plus" in the variant name = the "+" edition of a mark
+
+  * logo/oiml-logo.pdf is the designer's master source.
+  * logo/profile-pic.png is the social-media profile picture.
+
+  RULE: never delete, rename, or "clean up" files in logo/.
+  Every file — including -old and numbered iterations — is kept
+  on purpose. Add new assets; do not remove old ones.
+
+----------------------------------------------------------------
+2. WHICH LOGO TO USE — decision table
+----------------------------------------------------------------
+
+  Context                                  Use
+  ---------------------------------------  -------------------------
+  Primary lockup (hero, cover, official)   oiml-logo_full-{theme}
+  App icon / favicon / square tile         oiml-logo_icon-{theme}
+  Small mark, avatar, badge (<64px)        oiml-logo_globe-{theme}
+  "SMART" wordmark + globe                 oiml-logo_smart-new-{theme}
+  Component-branded surface                that component's variant
+                                           (see table below)
+  Animated loading/progress                spinning-globe components
+                                           (section 5)
+  Social profile picture                   logo/profile-pic.png
+
+  Component variants (each pairs the globe with the component
+  wordmark; all ship in -dark and -light):
+
+    cs             CS
+    cs-smart       CS SMART
+    cs-smartplus   CS SMART+
+    smartplus      SMART+
+    platform       PLATFORM
+    platformplus   PLATFORM+
+    smart-rec      SMART REC
+    smart-studio   SMART STUDIO
+    smi            SMI
+    sst            SST
+    cnml-box       CNML (boxed mark)
+    vocab          VOCAB
+
+  Historical (do NOT use for new work):
+    full-old, icon-old, smart-old
+
+  If a context is not listed, default to oiml-logo_full-{theme}.
+
+----------------------------------------------------------------
+3. THEME RULE — dark or light?
+----------------------------------------------------------------
+
+  Background of your surface          Theme to use
+  ----------------------------------  --------------------------
+  Dark (navy, black, <= 30% luma)     -dark variants
+  Light (white, off-white, paper)     -light variants
+
+  Never place a -dark asset on a light background or vice versa;
+  the contrast is built into the artwork.
+
+----------------------------------------------------------------
+4. COLORS — the palette
+----------------------------------------------------------------
+
+  Role                          Hex         Notes
+  ----------------------------  ----------  ---------------------
+  Brand Blue (primary)          #004996     light-theme stroke,
+                                             text, links
+  Sky Blue (secondary)          #61b4ff     dark-theme stroke,
+                                             highlights
+  Deep Navy                     #001e41     dark wordmarks, dark
+                                             surfaces
+  Midnight Navy                 #003369     secondary dark blue
+  Ocean Blue                    #017abe     mid-tone accent
+  Pale Sky                      #c4e3ff     light-theme accents,
+                                             highlights
+  Ink                           #1d1d1b     near-black text
+  White                         #ffffff     text on dark
+  Background (dark surfaces)    #050810     use behind -dark assets
+  Background (light surfaces)   #f5f3ed     use behind -light assets
+  Star Yellow (dark theme)      #ffd54f     sparingly, accents only
+  Star Amber (light theme)      #ff9800     sparingly, accents only
+
+  Do not invent new colors, do not recolor or tint the logo
+  artwork. If a mockup needs other hues, use the palette above.
+
+----------------------------------------------------------------
+5. ANIMATED COMPONENTS — spinner / progress globes
+----------------------------------------------------------------
+
+  Three dependency-free ES5 files (plain <script> tag, no build):
+
+    spinning-globe.js        wireframe globe, OIML<->SMART wordmark
+    spinning-globe-3d.js     volumetric fill, clouds, star lights
+    spinning-globe-mini.js   compact 24-64px variant (no wordmark)
+
+  Minimal usage:
+
+    <div id="loader" style="width: 200px;"></div>
+    <script src="spinning-globe-3d.js"></script>
+    <script>
+      var loader = new SpinningGlobe3D('#loader', {
+        theme: 'dark', mode: 'spinner'
+      });
+    </script>
+
+  Progress indicator:
+
+    var loader = new SpinningGlobe3D('#loader', {
+      theme: 'dark', mode: 'progress'
+    });
+    loader.setProgress(0.7);   // 0..1, call as work advances
+
+  Small screens: use SpinningGlobeMini with a fixed 24-64px box.
+
+  Full API reference: README.md in the repository root.
+
+----------------------------------------------------------------
+6. URLs — hotlinking
+----------------------------------------------------------------
+
+  Raw file (always latest main):
+    https://raw.githubusercontent.com/oimlsmart/branding/main/logo/<file>
+    https://raw.githubusercontent.com/oimlsmart/branding/main/spinning-globe.js
+
+  GitHub Pages (CDN-backed):
+    https://oimlsmart.github.io/branding/logo/<file>
+    https://oimlsmart.github.io/branding/spinning-globe.js
+
+----------------------------------------------------------------
+7. HARD RULES
+----------------------------------------------------------------
+
+  1. Use the provided files as-is: no stretching, rotating,
+     recoloring, adding outlines/shadows/gradients, or
+     re-typesetting the wordmarks.
+  2. Pick -dark or -light per the background (section 3).
+  3. Keep clear space around the mark of at least the globe's
+     radius on all sides; nothing may overlap the mark.
+  4. Minimum sizes: full lockup >= 120px wide; icon >= 32px;
+     below 64px prefer the globe mark or SpinningGlobeMini.
+  5. Never use -old or numbered-iteration files in new work.
+  6. Never delete or overwrite files in logo/ (see section 1).
+  7. The SVGs are the source of truth; PNGs are 300dpi exports.
+     Generate new exports from the SVGs, never edit PNGs.
+  8. Wordmark colors come from the palette (section 4) only.
+
+----------------------------------------------------------------
+8. FOR AI AGENTS
+----------------------------------------------------------------
+
+  If asked to "apply OIML Smart branding" to a page, app, or
+  document: read sections 2-4, choose the variant by context,
+  copy or hotlink the exact file, set the background to
+  #050810 (dark) or #f5f3ed (light), and use only palette
+  colors for surrounding text/accents. For loading states,
+  embed the component snippet in section 5. When unsure,
+  use oiml-logo_full-{theme} and Brand Blue #004996 on light.
+
+================================================================
+End of guide. Source of truth for wording: README.md.
+================================================================

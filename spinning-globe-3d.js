@@ -58,9 +58,10 @@
             duration: 5.6,
             spinSpeed: 3.3,
             delay: 0,
-            fillTime: 4.0,
             idleAnimation: 'continue',
-            progress: 0
+            progress: 0,
+            text: true,
+            cycleTime: 9
         }, opts);
 
         this._stopped = false;
@@ -233,6 +234,17 @@
         this._DELTA = this._SNAP - raw;
         this._aSpin = aSpin;
         this._aFull = aFull;
+
+        /* synchronized spinner — one cycleTime drives text, spin, and fill */
+        var H = Math.max(2, o.cycleTime) / 2;
+        var unit = 2 * Math.PI / N_MER;
+        this._PH = H;
+        this._PH_TURNS = Math.round(2.5 * N_MER) * unit;
+        this._PH_M = 0.35;
+        this._PH_V = this._PH_TURNS / (H * (this._PH_M + 2 * (1 - this._PH_M) / Math.PI));
+        var xf = Math.min(2.4, H * 0.5);
+        this._PH_XF0 = H / 2 - xf / 2;
+        this._PH_XF1 = H / 2 + xf / 2;
     };
 
     SpinningGlobe3D.prototype._reset = function() {
@@ -240,7 +252,7 @@
         var op = this._textOp(0);
         this._oiml.setAttribute('opacity', op.o.toFixed(2));
         this._smart.setAttribute('opacity', op.s.toFixed(2));
-        this._line.setAttribute('opacity', this._opts.mode === 'spinner' ? '0' : '1');
+        this._line.setAttribute('opacity', this._lineOp(0).toFixed(2));
         this._setFillLevel(this._progress);
         for (var i = 0; i < this._lights.length; i++) this._lights[i].setAttribute('opacity', '0');
         for (var i = 0; i < this._clouds.length; i++) this._clouds[i].setAttribute('opacity', '0');
@@ -259,8 +271,20 @@
         };
     };
 
+    /* breathing spin: speed floor + sinusoidal swell, seamless across half boundaries */
+    SpinningGlobe3D.prototype._spinAngle = function(u) {
+        var H = this._PH;
+        return this._PH_V * this._PH_M * u +
+            this._PH_V * (1 - this._PH_M) * (H / Math.PI) * (1 - Math.cos(Math.PI * u / H));
+    };
+
     SpinningGlobe3D.prototype._computeAngle = function(t) {
-        if (this._opts.mode === 'spinner') return INITIAL + this._SPD * t;
+        var m = this._opts.mode;
+        if (m === 'spinner') {
+            var k = Math.floor(t / this._PH);
+            return INITIAL + k * this._PH_TURNS + this._spinAngle(t - k * this._PH);
+        }
+        if (m === 'progress') return INITIAL;
         if (t >= this._DUR) return this._SNAP;
         if (t < this._P1) return INITIAL;
         if (t < this._P2) {
@@ -276,17 +300,25 @@
 
     SpinningGlobe3D.prototype._textOp = function(t) {
         var m = this._opts.mode;
+        var tx = this._opts.text;
+        if (tx === false) return { o: 0, s: 0 };
+        if (tx === 'oiml') return { o: 1, s: 0 };
+        if (tx === 'smart') return { o: 0, s: 1 };
+        if (m === 'progress') {
+            if (t >= this._P1) return { o: 1, s: 0 };
+            var pf = this._ease(t / this._P1);
+            return { o: pf, s: 0 };
+        }
         if (m === 'spinner') {
-            var SH = 4.5, SXF = 1.8, hold = SH - SXF;
-            var seg = t % (SH * 2);
-            if (seg < hold) return { o: 1, s: 0 };
-            if (seg < SH) {
-                var p = (seg - hold) / SXF;
-                return { o: Math.max(0, 1 - this._ease(p)), s: Math.min(1, this._ease(Math.max((p - 0.15) / 0.85, 0))) };
+            var k = Math.floor(t / this._PH);
+            var u = t - k * this._PH;
+            var o0 = (k % 2 === 0) ? 1 : 0;
+            if (u < this._PH_XF0) return { o: o0, s: 1 - o0 };
+            if (u < this._PH_XF1) {
+                var e = this._ease((u - this._PH_XF0) / (this._PH_XF1 - this._PH_XF0));
+                return { o: o0 * (1 - e) + (1 - o0) * e, s: (1 - o0) * (1 - e) + o0 * e };
             }
-            if (seg < SH + hold) return { o: 0, s: 1 };
-            var p2 = (seg - SH - hold) / SXF;
-            return { s: Math.max(0, 1 - this._ease(p2)), o: Math.min(1, this._ease(Math.max((p2 - 0.15) / 0.85, 0))) };
+            return { o: 1 - o0, s: o0 };
         }
         var fwd = m === 'forward';
         if (t >= this._DUR) return fwd ? { o: 0, s: 1 } : { o: 1, s: 0 };
@@ -300,6 +332,7 @@
     };
 
     SpinningGlobe3D.prototype._lineOp = function(t) {
+        if (this._opts.mode === 'progress') return 1;
         if (this._opts.mode === 'spinner') return 0;
         if (t >= this._DUR) return 1;
         if (t < this._P1) return 1;
@@ -358,11 +391,12 @@
     };
 
     SpinningGlobe3D.prototype._fillPct = function(t) {
-        if (this._opts.mode === 'spinner') {
-            var fillDur = this._opts.fillTime;
-            var cycle = t % (fillDur * 2);
-            var p = cycle < fillDur ? cycle / fillDur : 1 - (cycle - fillDur) / fillDur;
-            return this._ease(p);
+        var m = this._opts.mode;
+        if (m === 'progress') return this._progress;
+        if (m === 'spinner') {
+            var k = Math.floor(t / this._PH);
+            var h = (t - k * this._PH) / this._PH;
+            return this._ease(k % 2 === 0 ? h : 1 - h);
         }
         if (t >= this._DUR) return 1;
         if (t < this._P1) return 0;
@@ -445,9 +479,9 @@
                 this._oiml.setAttribute('opacity', op.o.toFixed(2));
                 this._smart.setAttribute('opacity', op.s.toFixed(2));
                 this._setFillLevel(fillPct);
-                this._line.setAttribute('opacity', this._lineOp(Math.min(el, this._DUR)).toFixed(2));
+                this._line.setAttribute('opacity', this._lineOp(this._opts.mode === 'spinner' ? el : Math.min(el, this._DUR)).toFixed(2));
 
-                if (this._opts.mode !== 'spinner' && el >= this._DUR) {
+                if (this._opts.mode !== 'spinner' && this._opts.mode !== 'progress' && el >= this._DUR) {
                     this._spinMers(this._SNAP);
                     this._stopped = true;
                     this._done = true;
@@ -480,6 +514,44 @@
     SpinningGlobe3D.prototype.setProgress = function(pct) {
         this._progress = Math.max(0, Math.min(1, pct));
         this._setFillLevel(this._progress);
+    };
+
+    SpinningGlobe3D.prototype._renderRest = function() {
+        this._spinMers(this._SNAP);
+        var op = this._textOp(this._DUR);
+        this._oiml.setAttribute('opacity', op.o.toFixed(2));
+        this._smart.setAttribute('opacity', op.s.toFixed(2));
+        this._line.setAttribute('opacity', '1');
+        this._setFillLevel(this._progress > 0 ? this._progress : 1);
+    };
+
+    SpinningGlobe3D.prototype.configure = function(opts) {
+        if (!opts) return this;
+        var rebuild = false;
+        for (var k in opts) {
+            if (!opts.hasOwnProperty(k)) continue;
+            if (k === 'theme' && opts[k] !== this._opts.theme) rebuild = true;
+            this._opts[k] = opts[k];
+        }
+        this._computeTiming();
+        if (rebuild) {
+            var elapsed = performance.now() - this._start;
+            this._build();
+            this._reset();
+            this._start = performance.now() - elapsed;
+            if (this._stopped) this._renderRest();
+            if (this._raf) {
+                cancelAnimationFrame(this._raf);
+                this._raf = requestAnimationFrame(this._tick);
+            }
+        } else if (this._stopped) {
+            this._renderRest();
+        }
+        return this;
+    };
+
+    SpinningGlobe3D.prototype.getOptions = function() {
+        return assign({}, this._opts);
     };
 
     SpinningGlobe3D.prototype.start = function() {
